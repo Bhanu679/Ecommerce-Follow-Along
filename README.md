@@ -51,32 +51,6 @@ This project will guide you through building  full-stack E-commerce website  usi
 # Milestone 1: 
 
 In a MERN stack application, login and sign-up (authentication) typically involve a process where users can register (sign-up) with their credentials, and later log in using those credentials. The login and sign-up process can be divided into several steps, with separate client-side (React) and server-side (Node.js/Express) handling.
-<<<<<<< HEAD
 
-
-## Milestone 2: Login Page & Authentication Setup
-
-### Description
-Milestone 2 focuses on the creation and setup of the **Login Page** for the application, including basic UI elements like forms and fields for user authentication. This milestone also includes setting up Tailwind CSS for styling, ensuring responsive and modern design practices. 
-
-### Key Features Completed:
-- **Login Page Design**: 
-  - Created a responsive login page with email and password inputs.
-  - Added "Remember Me" checkbox and "Forgot Password?" link.
-  
-- **Tailwind CSS Setup**: 
-  - Integrated Tailwind CSS for styling the login page with a clean, modern interface.
-  - Configured the `tailwind.config.js` and `postcss.config.js` files.
-
-- **New Branch Creation**: 
-  - Created a new branch (`milestone-2`) to manage and track the progress for this feature.
-  
-- **Responsive Layout**: 
-  - The login page is designed to be responsive and user-friendly, adjusting for both mobile and desktop views.
-
-### Technologies Used:
-- **React**: JavaScript library for building the user interface.
-- **Tailwind CSS**: Utility-first CSS framework for styling.
-- **React Router**: For managing routing (if applicable).
-- **Axios**: To handle HTTP requests for user authentication (in future milestones).
-  
+# Milestone 2:
+In this milestone, we focused on structuring our E-Commerce application and developing the Login Page as the first user-facing feature. The process involved several key steps, ensuring a solid foundation for both the frontend (React) and backend (Node.js/Express).
