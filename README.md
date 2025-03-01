@@ -113,3 +113,14 @@ A React.js frontend to interact with the *Product API* (Milestone 10). Users can
 - Form to add a new product.
 - Connects to *Express & MongoDB API* (Milestone 10).
 
+# 🛒 Product API (Milestone 10)
+
+A simple Express & MongoDB API to store product details with validation using Mongoose.
+
+## 🚀 Features
+- Create a product with *name, description, price, and image*.
+- Validates input before storing data in MongoDB.
+- RESTful *POST endpoint* to add products.
+
+# Product endpoint 
+send all products which are updated by uploading form
