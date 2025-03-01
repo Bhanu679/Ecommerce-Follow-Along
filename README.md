@@ -124,3 +124,16 @@ A simple Express & MongoDB API to store product details with validation using Mo
 
 # Product endpoint 
 send all products which are updated by uploading form
+
+# Milestone 11: Dynamic Home Page
+
+## Welcome to Milestone 11! 🌟
+
+Today, we will make our home page that will display all the products dynamic. We will write an endpoint that will send all the data that was saved in MongoDB using the add products page earlier.
+
+### Learning Goals 🎯
+By the end of this milestone, you will:
+- Understand how to write an endpoint that will extract and send data from MongoDB.
+- Learn how to receive data at the frontend.
+- Learn how to display that data dynamically using the product card component created earlier.
+
