@@ -163,3 +163,22 @@ Got it! Here’s a simplified version of the README file without code:
 ## Learning Goals 🎯
 - Write an endpoint to update existing data in MongoDB.
 - Deletes the product from the page
+
+## Milestone 15: Navbar Component for Every Screen Page in Frontend
+
+In this milestone, we created an Navbar Component for every screen with page like Home, My Products, Add product, cart,etc.,
+
+- Added Navbar for all pages includes HomePage, Products page, login/Signup page, and Product form
+
+- Made full responsive for both desktop and mobile view and styled using tailwind CSS
+
+
+## Milestone 16: Product Info Page
+
+In this milestone, we created a product information page that displays detailed product data and includes features like quantity selection, add-to-cart, buy-now, and a like button.
+
+- Implemented a product info page that fetches and displays detailed product information based on the product ID from the URL.
+
+- Applied a professional dark blue theme using Tailwind CSS.
+
+- Implemented event handlers for quantity changes, add-to-cart, buy-now, and like actions.
