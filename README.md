@@ -113,4 +113,99 @@ In this milestone, we focus on creating a login endpoint for user authentication
 Technologies Used:
 - MongoDB & Mongoose (Database & ORM)
 - bcrypt.js (Password encryption)
+## Milestone 8:Card Componenet & Homepage Layout
+In this milestone, we focused on creating a Card Component and Homepage Layout. This Includes:
+Resusable Product card Component
+Responsive Grid Layout
+Tailwind CSS Styling for Home Page
+
+## Milestone 9: Product Management Frontend
+In this milestone we focused on Interacting with product API, Where users can add and view products in a simple UI, This Includes:
+Display a form to add products
+Form to add a new product
+Connects to Express & MongoDB API
+
+## Milestone 10: Product API
+In this milestone, We focused on Validation and Store Product Details Using Express and MongoDB API Using Mongoose Library
+Create a Product with name, descriptions, price and Image URL
+Validates input before storing data in MongoDB
+RESTful POST endpoint to add products
+
+# Milestone 11: Dynamic Home Page
+
+## Welcome to Milestone 11! 🌟
+
+Today, we will make our home page that will display all the products dynamic. We will write an endpoint that will send all the data that was saved in MongoDB using the add products page earlier.
+
+### Learning Goals 🎯
+By the end of this milestone, you will:
+- Understand how to write an endpoint that will extract and send data from MongoDB.
+- Learn how to receive data at the frontend.
+- Learn how to display that data dynamically using the product card component created earlier.
+
+# Milestone 12: My Products Page
+
+## Overview
+In this milestone, we created a "My Products" page that displays all the products added by the user, filtered by their email.
+
+## Features
+- **Backend**: Added an endpoint to fetch products by user email.
+- **Frontend**: Created a function to retrieve and display products dynamically.
+- **Component**: Utilized the `Card` component to present each product.
+
+# Milestone 13: Edit Product Functionality
+
+## Learning Goals 🎯
+- Write an endpoint to update existing data in MongoDB.
+- Autofill forms with previous data for editing.
+
+# Milestone 14: Delete Product Functionality
+
+## Learning Goals 🎯
+- Write an endpoint to update existing data in MongoDB.
+- Deletes the product from the page
+
+## Milestone 15: Navbar Component for Every Screen Page in Frontend
+
+In this milestone, we created an Navbar Component for every screen with page like Home, My Products, Add product, cart,etc.,
+
+- Added Navbar for all pages includes HomePage, Products page, login/Signup page, and Product form
+
+- Made full responsive for both desktop and mobile view and styled using tailwind CSS
+
+
+## Milestone 16: Product Info Page
+
+In this milestone, we created a product information page that displays detailed product data and includes features like quantity selection, add-to-cart, buy-now, and a like button.
+
+- Implemented a product info page that fetches and displays detailed product information based on the product ID from the URL.
+
+- Applied a professional dark blue theme using Tailwind CSS.
+
+- Implemented event handlers for quantity changes, add-to-cart, buy-now, and like actions.
+## Milestone 17: Created an Endpoint for Saving Cart products in Database
+
+In this milestone, we created an endpoint for saving the Cart Product Details in User Schema and Store Cart details in MongoDB Database.
+
+- Implemented POST Method to handle endpoint to store cart products in Database.
+
+## Milestone 18:
+
+In this milestone, we created an endpoint for fetching all the products inside a user's cart from the MongoDB database based on the user's email. This allows the cart page to display the products that the user has added to their cart.
+
+- Implemented GET Method to handle the endpoint for fetching cart products from the database.
+
+- Validated User based on the email provided in the request and retrieved their cart items.
+
+- Displayed Cart Products with details such as quantity, price, product name, and image on the cart page.
+
+## Milestone 19: Cart Page Implementaion
+
+In this milestone, we created a Frontend page UI for cart and wrttien endpoint to increase and decrease the quantity of product inside cart.
+
+- Created an Cart page that displays products inside cart using endpoint.
+  
+- for each product added an option to increase and decrease quantity using + and - buttons.
+
+
 

@@ -1,39 +1,72 @@
-const app = require("./app");
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const fs = require("fs");
+const path = require("path");
 const connectDatabase = require("./db/database");
+const ErrorHandler = require("./middleware/error");
 
-// Handling uncaught Exception when setting up backend server
-process.on("uncaughtException", (err) => {
-    console.log(`Error: ${err.message}`);
-    console.log(`shutting down the server for handling uncaught exception`);
-  });
-  
+const app = express();
 
-  // config
+// Load environment variables (only in development mode)
 if (process.env.NODE_ENV !== "PRODUCTION") {
-    require("dotenv").config({
-      path: "config/.env",
-    });
-};
+    dotenv.config({ path: "config/.env" });
+}
 
-// connect db
+// Ensure uploads directory exists
+const uploadPath = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadPath)) {
+    fs.mkdirSync(uploadPath, { recursive: true });
+    console.log("✅ Created 'uploads/' directory");
+}
+
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+
+const allowedOrigins = ["http://localhost:5173", "http://localhost:3000"];
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
+
+// Serve static files
+app.use("/uploads", express.static("uploads"));
+
+// Import and use routes
+const userRoutes = require("./controller/userRouter");
+const productRoutes = require("./controller/productRouter");
+const cartRoutes = require("./controller/cartRouter");
+
+app.use("/user", userRoutes);
+app.use("/products", productRoutes);
+app.use("/cart", cartRoutes);
+
+// Error Handling Middleware
+app.use(ErrorHandler);
+
+// ✅ Connect to MongoDB database
 connectDatabase();
 
+// ✅ Start server
+const PORT = process.env.PORT || 8000;
+const server = app.listen(PORT, () => {
+    console.log(`✅ Server running on http://localhost:${PORT}`);
+});
 
-// create server
-const server = app.listen(process.env.PORT, () => {
-    console.log(
-      `Server is running on http://localhost:${process.env.PORT}`
-    );
-  });
-
-
-  // unhandled promise rejection(explain error handling when setting up server as you code)
-  process.on("unhandledRejection", (err) => {
-    console.error(`Unhandled Rejection: ${err.message}`);
-    console.log("Shutting down the server due to unhandled promise rejection.");
-    
-    server.close(() => {
-      process.exit(1); // Exit with failure code
-    });
-  });
-  
+// Handling uncaught exceptions
+process.on("uncaughtException", (err) => {
+    console.error(`Error: ${err.message}`);
+    console.log("Shutting down due to an uncaught exception...");
+    process.exit(1);
+});
