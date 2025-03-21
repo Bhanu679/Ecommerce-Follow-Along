@@ -11,20 +11,28 @@ const cartItemSchema = new mongoose.Schema({
     image: { type: String }
 });
 
+// Define the address schema
+const addressSchema = new mongoose.Schema({
+    country: { type: String, required: true },
+    city: { type: String, required: true },
+    address1: { type: String, required: true },
+    address2: { type: String },
+    zipCode: { type: String, required: true },
+    addressType: { type: String, enum: ["Home", "Work", "Other"], default: "Home" }
+});
+
 // Define the user schema
 const userSchema = new mongoose.Schema({
-    name: { type: String, required: [true, "Please enter your name!"] },
-    email: { type: String, required: [true, "Please enter your email!"], unique: true },
-    password: { type: String, required: [true, "Please enter your password"], minLength: 4, select: false },
-    phoneNumber: { type: Number, required: false },
-    addresses: { type: [String], default: [] },
-    cart: { type: [cartItemSchema], default: [] },
-    avatar: {
-        public_id: { type: String, default: "" },
-        url: { type: String, default: "" }
-    },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true, select: false },
+    phoneNumber: { type: String },
+    addresses: { type: [addressSchema], default: [] },
+    avatar: { type: String, default: "" },  // ✅ Removed `public_id`, now only stores URL
     createdAt: { type: Date, default: Date.now }
-});
+  });
+  
+  
 
 // Hash password before saving
 userSchema.pre("save", async function (next) {

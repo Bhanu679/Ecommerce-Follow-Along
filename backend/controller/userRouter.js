@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
 const User = require('../model/userModel');
+const authenticate = require('../middleware/auth');
 require('dotenv').config();
 
 // Configure multer for file uploads
@@ -17,13 +18,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-
 // Signup Route
 router.post("/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
-    console.log("Received signup request:", req.body);
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -34,19 +32,11 @@ router.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "Email already exists" });
     }
 
-    // ❌ Do NOT hash the password here. Let Mongoose handle it.
-    const newUser = new User({
-      name,
-      email,
-      password  // ✅ Directly assign the password, Mongoose will hash it
-    });
-
+    const newUser = new User({ name, email, password });
     await newUser.save();
-    console.log("✅ User saved successfully:", newUser);
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    console.error("Signup error:", error);
     res.status(500).json({ message: "Server error. Please try again later." });
   }
 });
@@ -54,28 +44,18 @@ router.post("/signup", async (req, res) => {
 // Login Route
 router.post('/login', async (req, res) => {
   try {
-    console.log("Login request received:", req.body);
-
     const { email, password } = req.body;
-
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password are required" });
     }
 
-    // ✅ Select password explicitly since it's set to "select: false"
     const user = await User.findOne({ email }).select("+password");
-
-    console.log("Found user in DB:", user);  // ✅ This should now include password
-    console.log("Stored password in DB:", user?.password);  // ✅ Check if password is present
-
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // ✅ Use comparePassword method to verify password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      console.log("Password does not match");
       return res.status(403).json({ message: "Invalid credentials" });
     }
 
@@ -84,15 +64,12 @@ router.post('/login', async (req, res) => {
       process.env.SECRET_KEY || "fallback_secret"
     );
 
-    console.log("Generated Token:", token);
-
     res.status(200).json({
       message: "Login successful",
       token,
       user: { userId: user._id, name: user.name }
     });
   } catch (err) {
-    console.error("Login error:", err);
     res.status(500).json({ message: "Server Error" });
   }
 });
@@ -101,55 +78,60 @@ router.post('/login', async (req, res) => {
 router.get('/users', async (req, res) => {
   try {
     const users = await User.find();
-    if (!users || users.length === 0) {
-      return res.status(404).json({ message: "No users found" });
-    }
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
-router.post('/send-user-data', async (req, res) => {
-  const { email } = req.body;
-
+// Add Address to User Profile
+router.post('/add-address', authenticate, async (req, res) => {
   try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    console.log("🔹 Address Request Received:", req.body);
+    console.log("🔹 User ID:", req.user._id);
+
+    const { country, city, address1, address2, zipCode, addressType } = req.body;
+
+    if (!country || !city || !address1 || !zipCode) {
+      return res.status(400).json({ message: "All required fields must be filled!" });
     }
 
-    const message = `
-      Name: ${user.name}
-      Email: ${user.email}
-      Addresses: ${user.addresses.join(', ')}
-    `;
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      console.log("❌ User Not Found!");
+      return res.status(404).json({ message: "User not found!" });
+    }
 
-    await sendEmail({
-      email: user.email,
-      subject: 'Your User Data',
-      message,
-    });
+    if (!Array.isArray(user.addresses)) {
+      user.addresses = [];
+    }
 
-    res.status(200).json({ message: 'User data sent successfully' });
+    user.addresses.push({ country, city, address1, address2, zipCode, addressType });
+
+    await user.save();
+    console.log("✅ Address Added Successfully!", user.addresses);
+
+    res.status(200).json({ message: "Address added successfully!", user });
   } catch (error) {
-    console.error('Error sending user data:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error("❌ Internal Server Error:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 });
 
 
-
-// Add this route to the existing userRouter
-router.put('/update-profile', async (req, res) => {
-  const { name, email, phone, avatar, addresses } = req.body;
-
+// Update Profile
+router.put('/update-profile', authenticate, async (req, res) => {
   try {
-    const user = await User.findOneAndUpdate(
-      { email },
-      { name, phone, avatar, addresses },
-      { new: true }
-    );
+    const { name, phone, avatar, addresses } = req.body;
+
+    const updateData = {
+      name,
+      phone,
+      addresses,
+      avatar: avatar || ""  // ✅ Store avatar as a simple URL string
+    };
+
+    const user = await User.findByIdAndUpdate(req.user._id, updateData, { new: true });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -157,10 +139,15 @@ router.put('/update-profile', async (req, res) => {
 
     res.status(200).json(user);
   } catch (error) {
-    console.error('Error updating profile:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('❌ Error updating profile:', error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 });
+
+
+
+
+
 
 // Endpoint for uploading avatar
 router.post('/upload-avatar', upload.single('avatar'), (req, res) => {
@@ -169,6 +156,5 @@ router.post('/upload-avatar', upload.single('avatar'), (req, res) => {
   }
   res.status(200).json({ url: `/uploads/${req.file.filename}` });
 });
-
 
 module.exports = router;
