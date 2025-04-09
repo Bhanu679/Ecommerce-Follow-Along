@@ -227,5 +227,39 @@ In this milestone, we created an backend endpoint which will save address inside
 - Added an Endpoint to receive the address via input filed in frontend and store it on databse using endpoint backend
 - this addresses saves in user collection using an array.
 
+## Milestone 23: Created Select Address page and Schema for Order details storing
 
+In this milestone, we created an Select Address page and Written Mongoose schema for storing orders details.
+
+- Added Place order button in cart page.
+- Created Select Address Page where we will display all adress and ask to select delivery address.
+- Written Mongoose Schema for storing Oriders Details
+
+## Milestone 24: Created Order Confirmation page in frontend.
+
+In this milestone, we created an Order Confirmation Page in frontend and Displaying products ordering and adress selection and total price details.
+
+- Added Order COnfirmation Page in frontend
+- Displaying products in selectAddress
+- Redirecting After Select Adress to Order Confirmation page.
+
+## Milestone 25: Created backend endpoint for placing order
+
+In this milestone, we created an endpoint for placing the order for receiving products, user, address details.
+
+- Created an endpoint for receiving products, user, address details
+- Retirving _id of the user using mail
+- product order will be diffrent with same address
+
+## Milestone 26: Created backend endpoint for Getting Orders
+
+In this milestone, we created an endpoint for getting all orders of the user by email
+
+- Created an endpoint for getting order details by email
+- Using Mail instead of _id for easy endpoint recognization.
+
+## Milestone 27: Created Frontend myOders Page for Displaying all Ordered Products.
+
+In this milestone, we created an Frontend page for oders displaying
+- Using mail orders get fetching from backend
 
