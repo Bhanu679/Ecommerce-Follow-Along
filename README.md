@@ -325,3 +325,69 @@ By the end of this milestone, you will:
 - Understand how to store the token inside a browser cookie.
 - Set an expiration time for the cookie using maxAge.
 
+## Milestone 34 - Validating JWT Token from Cookie
+✅ Overview
+In this milestone, we implemented JWT token validation using cookies to ensure secure access to protected routes. This is a key step in building authenticated full-stack applications.
+
+🎯 Learning Outcomes
+Extracted JWT token from browser cookies.
+
+Sent the token to the backend for verification.
+
+Created middleware in the backend to validate the token.
+
+Ensured protected routes/pages can only be accessed by authenticated users.
+
+🛠 What Was Implemented
+Frontend
+Retrieved the JWT token from cookies on each page load.
+
+Sent the token to the backend for validation before rendering protected content.
+
+Backend
+Created a middleware function verifyToken to:
+
+Extract the JWT from cookies.
+
+Verify the token using the secret key.
+
+Grant or deny access based on the result.
+
+Protected Routing
+Integrated the token verification on all protected routes/pages.
+
+Unauthorized users are redirected to the login page if no valid token is found.
+
+## Milestone 35 - Deploying Frontend and Backend
+✅ Overview
+In this milestone, we successfully deployed both the frontend and backend of our full stack application, making it publicly accessible online. This completes our journey in building and launching a fully functional web app.
+
+🎯 Learning Goals
+By the end of this milestone, we:
+
+Learned how to deploy the frontend using a deployment service.
+
+Learned how to deploy the backend and connect it with the frontend.
+
+Configured both deployments to work seamlessly together.
+
+🛠 Steps Completed
+✅ Backend Deployment
+Deployed the backend using [e.g., Render / Railway / Cyclic / Heroku / Vercel Functions].
+
+Obtained the backend deployment URL (e.g., https://your-backend-url.com).
+
+Enabled CORS and ensured environment variables (like MongoDB URI, JWT secret) were set correctly.
+
+✅ Frontend Deployment
+Updated the frontend API URLs from localhost to the deployed backend URL.
+
+Deployed the frontend using [e.g., Vercel / Netlify / GitHub Pages].
+
+Verified that API requests correctly connect to the live backend.
+
+✅ Final Testing
+Performed end-to-end testing to ensure the website works as expected.
+
+Verified login, protected routes, and all functionality across both deployments.
+
